@@ -1,1 +1,1 @@
-# DeepLearningProject1
+# DeepLearningProject1 - CNNS
