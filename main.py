@@ -9,7 +9,7 @@ from models.mlp_mixer import MLPMixer
 
 torch.manual_seed(42)
 
-train_loader, test_loader = get_dataloaders(batch_size=128, data_dir="./data", augmentations="rotation")
+train_loader, test_loader = get_dataloaders(batch_size=128, data_dir="./data", augmentations="noise")
 
 # model_simple_cnn = SimpleCNN()
 # print('--- Simple CNN ---')
@@ -23,7 +23,7 @@ train_loader, test_loader = get_dataloaders(batch_size=128, data_dir="./data", a
 
 model_deep_cnn = DeepCNN()
 print('--- Deep CNN ---')
-train_model(model_deep_cnn, train_loader, lr=0.001, epochs=35)
+train_model(model_deep_cnn, train_loader, lr=0.001, epochs=15, weight_decay=0.0001)
 evaluate_model(model_deep_cnn, test_loader)
 
 # model_mlp = MLPMixer()
