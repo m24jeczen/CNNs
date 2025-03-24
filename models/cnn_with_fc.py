@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class CNNWithFC(nn.Module):
-    def __init__(self):
+    def __init__(self,dropout_p=0.5):
         super(CNNWithFC, self).__init__()
         
         # Convolutional Layer
@@ -12,7 +12,7 @@ class CNNWithFC(nn.Module):
         self.fc1 = nn.Linear(32 * 16 * 16, 128)  # 128 neurons
         
         # Dropout Layer (to prevent overfitting)
-        self.dropout = nn.Dropout(p=0.5)
+        self.dropout = nn.Dropout(p=dropout_p)
         
         # Activation Function
         self.relu = nn.ReLU()
