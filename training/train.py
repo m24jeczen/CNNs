@@ -5,6 +5,7 @@ from torch.optim.lr_scheduler import OneCycleLR, StepLR
 from torchmetrics.classification import Accuracy, Precision, Recall
 import os
 import csv
+from tqdm import tqdm
 
 def save_training_results(model_name, num_epochs, augmentations_str, batch_size, l2_reg, min_lr, max_lr, scheduler_type, training_results):
 
@@ -40,7 +41,7 @@ def train_model(model, train_loader, lr=0.001, epochs=10, scheduler_type=None, s
     
     training_results = []
     
-    for epoch in range(epochs):
+    for epoch in tqdm(range(epochs)):
         model.train()
         running_loss = 0.0
         

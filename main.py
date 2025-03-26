@@ -12,9 +12,9 @@ scheduler_type = "one_cycle"  # "one_cycle" or "step_decay"
 augmentations=["rotation"] #  "translation", "noise"
 lr = 0.001
 l2_reg = 0.0
-epochs = 25
+epochs = 15
 
-train_loader, test_loader = get_dataloaders(batch_size=128, data_dir="./data", augmentations=augmentations)
+train_loader, test_loader = get_dataloaders(batch_size=512, data_dir="./data", augmentations=augmentations)
 
 model_deep_cnn = DeepCNN()
 print('--- Deep CNN ---')
