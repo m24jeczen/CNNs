@@ -13,7 +13,7 @@ def save_evaluation_results(model_name, num_epochs, augmentations_str, batch_siz
     print("Evaluation results appended to test_results.txt")
 
 
-def evaluate_model(model, test_loader, num_epochs, weight_decay=0, min_lr=0.0001, max_lr=0.001, scheduler_type="none", device=None, augmentations=None):
+def evaluate_model(model, test_loader, num_epochs, l2_reg=0, min_lr=0.0001, max_lr=0.001, scheduler_type="none", device=None, augmentations=None):
 
     if device is None:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -49,6 +49,6 @@ def evaluate_model(model, test_loader, num_epochs, weight_decay=0, min_lr=0.0001
     
     augmentations_str = ("_".join(augmentations)) if augmentations else "none"
     
-    save_evaluation_results(model.__class__.__name__, num_epochs, augmentations_str, test_loader.batch_size, weight_decay, min_lr, max_lr, scheduler_type, test_metrics)
+    save_evaluation_results(model.__class__.__name__, num_epochs, augmentations_str, test_loader.batch_size, l2_reg, min_lr, max_lr, scheduler_type, test_metrics)
     
     #return avg_loss, test_acc, test_prec, test_recall
