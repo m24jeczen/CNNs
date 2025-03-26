@@ -86,7 +86,7 @@ def evaluate_model(model, test_loader, num_epochs, weight_decay=0, min_lr=0.0001
     print(f"Test Loss: {avg_loss:.4f}, Accuracy: {test_acc:.4f}, Precision: {test_prec:.4f}, Recall: {test_recall:.4f}")
     
     # Ensure augmentations is a string for logging
-    augmentations_str = "_".join(augmentations) if augmentations else "none"
+    augmentations_str = ("_".join(augmentations)) if augmentations else "none"
     
     save_evaluation_results(model.__class__.__name__, num_epochs, augmentations_str, test_loader.batch_size, weight_decay, min_lr, max_lr, scheduler_type, test_metrics)
     
