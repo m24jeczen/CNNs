@@ -6,29 +6,50 @@ from training.train import train_model
 from evaluation.evaluate import evaluate_model
 from models.deep_cnn import DeepCNN
 from models.mlp_mixer import MLPMixer
-from utils.save_and_load_model import save_model, load_model
+from models.protypical_net import ProtoNet
+
 
 torch.manual_seed(42)
 scheduler_type = "one_cycle"  # "one_cycle" or "step_decay"
-augmentations=["rotation"] #  "translation", "noise"
+augmentations=["rotation"] #  "translation", "noise", "style", "erasing"
 lr = 0.001
 l2_reg = 0.0
-epochs = 10
+epochs = 30
 
-train_loader, test_loader = get_dataloaders(batch_size=128, data_dir="./data", augmentations=augmentations)
+train_loader, test_loader = get_dataloaders(batch_size=256, data_dir="./data", augmentations=augmentations)
+
+
+def perform_experiment(model, train_loader, test_loader, lr, epochs, l2_reg, augmentations):
+    print(f'--- {model.__class__.__name__} ---')
+    train_model(model, train_loader, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type)
+    evaluate_model(model, test_loader, num_epochs=epochs, l2_reg=l2_reg, augmentations=augmentations)
+
+
+#augemnatiion experiment
+augmentations_for_experiment = [None, ["rotation"], ["translation"], ["noise"], ["style"], ["erasing"]]
+for augmentation in augmentations_for_experiment:
+    print(f'--- Augmentation: {augmentation} ---')
+    model_simple_cnn = SimpleCNN(dropout_p=0.55)
+    model_deep_cnn = DeepCNN()
+    model_cnn_with_fc = CNNWithFC()
+    model_mlp = MLPMixer()
+    model_proto_net = ProtoNet()
+
+    models = [model_simple_cnn, model_deep_cnn, model_cnn_with_fc, model_mlp, model_proto_net]
+    for model in models:
+        perform_experiment(model, train_loader, test_loader, lr, epochs, l2_reg, augmentation)
+
+
 
 # model_deep_cnn = DeepCNN()
 # print('--- Deep CNN ---')
 # model, optimizer = train_model(model_deep_cnn, train_loader, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type)
 # evaluate_model(model_deep_cnn, test_loader, num_epochs=epochs, l2_reg=l2_reg, augmentations=augmentations)
 
-# save_model(model, "Deep_CNN_test3", epoch=epochs, optimizer=optimizer)
-
-
-model_simple_cnn = SimpleCNN(dropout_p=0.55)
-print('--- Simple CNN ---')
-train_model(model_simple_cnn, train_loader, lr=0.001, epochs=epochs, l2_reg=0.001)
-evaluate_model(model_simple_cnn, test_loader, 2)
+# model_simple_cnn = SimpleCNN(dropout_p=0.55)
+# print('--- Simple CNN ---')
+# train_model(model_simple_cnn, train_loader, lr=0.001, epochs=epochs, l2_reg=0.001)
+# evaluate_model(model_simple_cnn, test_loader, 2)
 
 # model_cnn_with_fc = CNNWithFC()
 # print('--- CNN with FC ---')
@@ -40,5 +61,7 @@ evaluate_model(model_simple_cnn, test_loader, 2)
 # train_model(model_mlp, train_loader, lr=0.001, epochs=35)
 # evaluate_model(model_mlp, test_loader)
 
-loaded_model = load_model(DeepCNN, "Deep_CNN_test3", epoch=epochs)
-evaluate_model(loaded_model, test_loader, num_epochs=epochs, l2_reg=0.0, augmentations=augmentations)
+# model_proto_net = ProtoNet()
+# print('--- ProtoNet ---')
+# train_model(model_proto_net, train_loader, lr=0.001, epochs=epochs)
+# evaluate_model(model_proto_net, test_loader, 2)
