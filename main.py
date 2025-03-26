@@ -8,8 +8,18 @@ from models.deep_cnn import DeepCNN
 from models.mlp_mixer import MLPMixer
 
 torch.manual_seed(42)
-# , augmentations=["rotation", "translation", "noise"]
-train_loader, test_loader = get_dataloaders(batch_size=128, data_dir="./data", augmentations=["rotation"])
+scheduler_type = "one_cycle"  # "one_cycle" or "step_decay"
+augmentations=["rotation"] #  "translation", "noise"
+lr = 0.001
+l2_reg = 0.0
+epochs = 25
+
+train_loader, test_loader = get_dataloaders(batch_size=128, data_dir="./data", augmentations=augmentations)
+
+model_deep_cnn = DeepCNN()
+print('--- Deep CNN ---')
+train_model(model_deep_cnn, train_loader, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type)
+evaluate_model(model_deep_cnn, test_loader, num_epochs=epochs, l2_reg=l2_reg, augmentations=augmentations)
 
 # model_simple_cnn = SimpleCNN(dropout_p=0.55)
 # print('--- Simple CNN ---')
@@ -20,11 +30,6 @@ train_loader, test_loader = get_dataloaders(batch_size=128, data_dir="./data", a
 # print('--- CNN with FC ---')
 # train_model(model_cnn_with_fc, train_loader, lr=0.001, epochs=20)
 # evaluate_model(model_cnn_with_fc, test_loader)
-
-model_deep_cnn = DeepCNN()
-print('--- Deep CNN ---')
-train_model(model_deep_cnn, train_loader, lr=0.001, epochs=2, l2_reg=0.001, augmentations=["rotation"])
-evaluate_model(model_deep_cnn, test_loader, 2, l2_reg=0.001, augmentations=["rotation"])
 
 # model_mlp = MLPMixer()
 # print('--- MLP Mixer ---')

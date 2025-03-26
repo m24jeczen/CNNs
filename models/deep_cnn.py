@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class DeepCNN(nn.Module):
-    def __init__(self):
+    def __init__(self, p_dropout=0.5):
         super(DeepCNN, self).__init__()
 
         self.conv1 = nn.Conv2d(3, 64, kernel_size=3, padding=1) 
@@ -17,7 +17,7 @@ class DeepCNN(nn.Module):
         self.pool3 = nn.MaxPool2d(2, 2) 
 
         self.fc1 = nn.Linear(512 * 4 * 4, 1024) 
-        self.dropout1 = nn.Dropout(0.5)  
+        self.dropout1 = nn.Dropout(p=p_dropout)  
         self.fc2 = nn.Linear(1024, 512)  
         self.dropout2 = nn.Dropout(0.5)
         self.fc3 = nn.Linear(512, 10)  
