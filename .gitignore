@@ -2,3 +2,7 @@ data/
 training/__pycache__/*
 models/__pycache__/*
 evaluation/__pycache__/*
+utils/__pycache__/*
+experiments/
+plan.txt
+Deep_Learning_plan.pdf
