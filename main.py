@@ -6,25 +6,29 @@ from training.train import train_model
 from evaluation.evaluate import evaluate_model
 from models.deep_cnn import DeepCNN
 from models.mlp_mixer import MLPMixer
+from utils.save_and_load_model import save_model, load_model
 
 torch.manual_seed(42)
 scheduler_type = "one_cycle"  # "one_cycle" or "step_decay"
 augmentations=["rotation"] #  "translation", "noise"
 lr = 0.001
 l2_reg = 0.0
-epochs = 15
+epochs = 10
 
-train_loader, test_loader = get_dataloaders(batch_size=512, data_dir="./data", augmentations=augmentations)
+train_loader, test_loader = get_dataloaders(batch_size=128, data_dir="./data", augmentations=augmentations)
 
-model_deep_cnn = DeepCNN()
-print('--- Deep CNN ---')
-train_model(model_deep_cnn, train_loader, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type)
-evaluate_model(model_deep_cnn, test_loader, num_epochs=epochs, l2_reg=l2_reg, augmentations=augmentations)
+# model_deep_cnn = DeepCNN()
+# print('--- Deep CNN ---')
+# model, optimizer = train_model(model_deep_cnn, train_loader, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type)
+# evaluate_model(model_deep_cnn, test_loader, num_epochs=epochs, l2_reg=l2_reg, augmentations=augmentations)
 
-# model_simple_cnn = SimpleCNN(dropout_p=0.55)
-# print('--- Simple CNN ---')
-# train_model(model_simple_cnn, train_loader, lr=0.001, epochs=2, l2_reg=0.001)
-# evaluate_model(model_simple_cnn, test_loader, 2)
+# save_model(model, "Deep_CNN_test3", epoch=epochs, optimizer=optimizer)
+
+
+model_simple_cnn = SimpleCNN(dropout_p=0.55)
+print('--- Simple CNN ---')
+train_model(model_simple_cnn, train_loader, lr=0.001, epochs=epochs, l2_reg=0.001)
+evaluate_model(model_simple_cnn, test_loader, 2)
 
 # model_cnn_with_fc = CNNWithFC()
 # print('--- CNN with FC ---')
@@ -35,3 +39,6 @@ evaluate_model(model_deep_cnn, test_loader, num_epochs=epochs, l2_reg=l2_reg, au
 # print('--- MLP Mixer ---')
 # train_model(model_mlp, train_loader, lr=0.001, epochs=35)
 # evaluate_model(model_mlp, test_loader)
+
+loaded_model = load_model(DeepCNN, "Deep_CNN_test3", epoch=epochs)
+evaluate_model(loaded_model, test_loader, num_epochs=epochs, l2_reg=0.0, augmentations=augmentations)
