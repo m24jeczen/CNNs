@@ -80,3 +80,4 @@ def train_model(model, train_loader, lr=0.001, epochs=10, scheduler_type=None, s
     augmentations_str = "_".join(augmentations) if augmentations else "none"
     save_training_results(model.__class__.__name__, epochs, augmentations_str, train_loader.batch_size, l2_reg, lr, max_lr, scheduler_type, training_results)
 
+    return model,optimizer

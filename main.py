@@ -7,6 +7,7 @@ from evaluation.evaluate import evaluate_model
 from models.deep_cnn import DeepCNN
 from models.mlp_mixer import MLPMixer
 from utils.save_and_load_model import save_model, load_model
+from utils.hard_voting import hard_voting_ensemble
 
 torch.manual_seed(42)
 scheduler_type = "one_cycle"  # "one_cycle" or "step_decay"
@@ -25,20 +26,38 @@ train_loader, test_loader = get_dataloaders(batch_size=128, data_dir="./data", a
 # save_model(model, "Deep_CNN_test3", epoch=epochs, optimizer=optimizer)
 
 
-model_simple_cnn = SimpleCNN(dropout_p=0.55)
-print('--- Simple CNN ---')
-train_model(model_simple_cnn, train_loader, lr=0.001, epochs=epochs, l2_reg=0.001)
-evaluate_model(model_simple_cnn, test_loader, 2)
+# model_simple_cnn = SimpleCNN()
+# print('--- Simple CNN ---')
+# train_model(model_simple_cnn, train_loader, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations)
+# evaluate_model(model_simple_cnn, test_loader, num_epochs=epochs, l2_reg=l2_reg, augmentations=augmentations)
+
+# save_model(model_simple_cnn, "Simple_CNN_test3", epoch=epochs)
 
 # model_cnn_with_fc = CNNWithFC()
 # print('--- CNN with FC ---')
-# train_model(model_cnn_with_fc, train_loader, lr=0.001, epochs=20)
-# evaluate_model(model_cnn_with_fc, test_loader)
+# train_model(model_cnn_with_fc, train_loader, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations)
+# evaluate_model(model_cnn_with_fc, test_loader, num_epochs=epochs, l2_reg=l2_reg, augmentations=augmentations)
+
+# save_model(model_cnn_with_fc, "CNN_with_fc_test3", epoch=epochs)
 
 # model_mlp = MLPMixer()
 # print('--- MLP Mixer ---')
 # train_model(model_mlp, train_loader, lr=0.001, epochs=35)
 # evaluate_model(model_mlp, test_loader)
 
-loaded_model = load_model(DeepCNN, "Deep_CNN_test3", epoch=epochs)
-evaluate_model(loaded_model, test_loader, num_epochs=epochs, l2_reg=0.0, augmentations=augmentations)
+# loaded_model = load_model(DeepCNN, "Deep_CNN_test3", epoch=epochs)
+# evaluate_model(loaded_model, test_loader, num_epochs=epochs, l2_reg=0.0, augmentations=augmentations)
+
+model1 = load_model(SimpleCNN, "Simple_CNN_test3", epoch=epochs)
+model2 = load_model(DeepCNN, "Deep_CNN_test3", epoch=epochs)
+model3 = load_model(CNNWithFC, "CNN_with_fc_test3", epoch=epochs)
+hard_voting_ensemble(
+    models=[model1, model2, model3],
+    test_loader=test_loader,
+    num_epochs=epochs,
+    l2_reg=l2_reg,
+    min_lr=0.001,
+    max_lr=0.003,
+    scheduler_type="one_cycle",
+    augmentations=["rotation"]
+)
