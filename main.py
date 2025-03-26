@@ -8,13 +8,13 @@ from models.deep_cnn import DeepCNN
 from models.mlp_mixer import MLPMixer
 
 torch.manual_seed(42)
-
-train_loader, test_loader = get_dataloaders(batch_size=128, data_dir="./data", augmentations=["rotation", "translation", "noise"])
+# , augmentations=["rotation", "translation", "noise"]
+train_loader, test_loader = get_dataloaders(batch_size=128, data_dir="./data")
 
 model_simple_cnn = SimpleCNN(dropout_p=0.55)
 print('--- Simple CNN ---')
 train_model(model_simple_cnn, train_loader, lr=0.001, epochs=2)
-evaluate_model(model_simple_cnn, test_loader)
+evaluate_model(model_simple_cnn, test_loader, 2)
 
 # model_cnn_with_fc = CNNWithFC()
 # print('--- CNN with FC ---')
