@@ -5,22 +5,11 @@ class CNNWithFC(nn.Module):
     def __init__(self,dropout_p=0.5):
         super(CNNWithFC, self).__init__()
         
-        # Convolutional Layer
         self.conv1 = nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3, padding=1)
-        
-        # Fully Connected Layer
         self.fc1 = nn.Linear(32 * 16 * 16, 128)  # 128 neurons
-        
-        # Dropout Layer (to prevent overfitting)
         self.dropout = nn.Dropout(p=dropout_p)
-        
-        # Activation Function
         self.relu = nn.ReLU()
-        
-        # Output Layer (10 classes for CINIC-10)
         self.fc2 = nn.Linear(128, 10)
-
-        # Pooling Layer
         self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
 
     def forward(self, x):
