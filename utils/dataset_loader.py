@@ -30,7 +30,7 @@ def get_dataloaders(batch_size=64, data_dir="path_to_cinic10", augmentations=Non
     
     if augmentations:
         if "rotation" in augmentations:
-            transform_list.append(transforms.RandomRotation(degrees=15)) 
+            transform_list.append(transforms.RandomRotation(degrees=10)) 
         if "translation" in augmentations:
             transform_list.append(transforms.RandomAffine(degrees=0, translate=(0.1, 0.1)))  
         if "noise" in augmentations:

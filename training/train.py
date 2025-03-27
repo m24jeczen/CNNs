@@ -6,9 +6,9 @@ from torchmetrics.classification import Accuracy, Precision, Recall
 import os
 import csv
 
-def save_training_results(model_name, num_epochs, augmentations_str, batch_size, l2_reg, min_lr, max_lr, scheduler_type, training_results):
+def save_training_results(model_name, num_epochs, augmentations_str, batch_size, l2_reg, min_lr, max_lr, scheduler_type, training_results, dropout_p):
 
-    filename = f"experiments/{model_name}_{num_epochs}_{augmentations_str}_{batch_size}_{l2_reg}_{min_lr}_{max_lr}_{scheduler_type}.csv"
+    filename = f"experiments/{model_name}_{num_epochs}_{augmentations_str}_{batch_size}_{l2_reg}_{min_lr}_{max_lr}_{scheduler_type}_{dropout_p}.csv"
     
     with open(filename, mode='w', newline='') as file:
         writer = csv.writer(file)
@@ -18,7 +18,7 @@ def save_training_results(model_name, num_epochs, augmentations_str, batch_size,
     
     print(f"Training results saved to {filename}")
 
-def train_model(model, train_loader, lr=0.001, epochs=10, scheduler_type=None, step_size=5, gamma=0.1, max_lr=0.003, l2_reg=0.0,augmentations=None):
+def train_model(model, train_loader, lr=0.001, epochs=10, scheduler_type=None, step_size=10, gamma=0.7, max_lr=0.003, l2_reg=0.0,augmentations=None, dropout_p=0.5):
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
@@ -78,6 +78,6 @@ def train_model(model, train_loader, lr=0.001, epochs=10, scheduler_type=None, s
         recall.reset()
     
     augmentations_str = "_".join(augmentations) if augmentations else "none"
-    save_training_results(model.__class__.__name__, epochs, augmentations_str, train_loader.batch_size, l2_reg, lr, max_lr, scheduler_type, training_results)
+    save_training_results(model.__class__.__name__, epochs, augmentations_str, train_loader.batch_size, l2_reg, lr, max_lr, scheduler_type, training_results, dropout_p)
 
     return model,optimizer
