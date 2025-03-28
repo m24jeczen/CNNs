@@ -1,4 +1,10 @@
+import random
+import torch.nn as nn
 import torch
+import torch.nn.functional as F
+from torch.utils.data import Dataset
+
+from models.protypical_net import load_cinic10_few_shot, ProtoNet
 from models.simple_cnn import SimpleCNN
 from models.cnn_with_fc import CNNWithFC
 from utils.dataset_loader import get_dataloaders
@@ -6,17 +12,16 @@ from training.train import train_model
 from evaluation.evaluate import evaluate_model
 from models.deep_cnn import DeepCNN
 from models.mlp_mixer import MLPMixer
-from models.protypical_net import ProtoNet
 
 
 torch.manual_seed(42)
-scheduler_type = "one_cycle"  # "one_cycle" or "step_decay"
+scheduler_type = None # "one_cycle" or "step_decay"
 augmentations=["rotation"] #  "translation", "noise", "style", "erasing"
 lr = 0.001
 l2_reg = 0.0
 epochs = 30
 
-train_loader, test_loader = get_dataloaders(batch_size=256, data_dir="./data", augmentations=augmentations)
+train_loader, test_loader = get_dataloaders(batch_size=512, data_dir="./data", augmentations=augmentations)
 
 
 def perform_experiment(model, train_loader, test_loader, lr, epochs, l2_reg, augmentations):
@@ -24,21 +29,22 @@ def perform_experiment(model, train_loader, test_loader, lr, epochs, l2_reg, aug
     train_model(model, train_loader, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type)
     evaluate_model(model, test_loader, num_epochs=epochs, l2_reg=l2_reg, augmentations=augmentations)
 
+few_shot_dataloader = load_cinic10_few_shot("../data/train/", num_samples_per_class=10)
+model = ProtoNet()
+train_model(model, few_shot_dataloader, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type)
 
 #augemnatiion experiment
-augmentations_for_experiment = [None, ["rotation"], ["translation"], ["noise"], ["style"], ["erasing"]]
-for augmentation in augmentations_for_experiment:
-    print(f'--- Augmentation: {augmentation} ---')
-    model_simple_cnn = SimpleCNN(dropout_p=0.55)
-    model_deep_cnn = DeepCNN()
-    model_cnn_with_fc = CNNWithFC()
-    model_mlp = MLPMixer()
-    model_proto_net = ProtoNet()
-
-    models = [model_simple_cnn, model_deep_cnn, model_cnn_with_fc, model_mlp, model_proto_net]
-    for model in models:
-        perform_experiment(model, train_loader, test_loader, lr, epochs, l2_reg, augmentation)
-
+# augmentations_for_experiment = [["noise"], ["style"], ["erasing"]]
+# for augmentation in augmentations_for_experiment:
+#     print(f'--- Augmentation: {augmentation} ---')
+#     model_simple_cnn = SimpleCNN(dropout_p=0.3)
+#     model_deep_cnn = DeepCNN(p_dropout=0.3)
+#     model_cnn_with_fc = CNNWithFC(dropout_p=0.3)
+#     model_mlp = MLPMixer()
+#
+#     models = [model_simple_cnn, model_deep_cnn, model_cnn_with_fc, model_mlp]
+#     for model in models:
+#         perform_experiment(model, train_loader, test_loader, lr, epochs, l2_reg, augmentation)
 
 
 # model_deep_cnn = DeepCNN()
@@ -61,7 +67,7 @@ for augmentation in augmentations_for_experiment:
 # train_model(model_mlp, train_loader, lr=0.001, epochs=35)
 # evaluate_model(model_mlp, test_loader)
 
-# model_proto_net = ProtoNet()
-# print('--- ProtoNet ---')
+# model_proto_net = protoNet()
+# print('--- protoNet ---')
 # train_model(model_proto_net, train_loader, lr=0.001, epochs=epochs)
 # evaluate_model(model_proto_net, test_loader, 2)
