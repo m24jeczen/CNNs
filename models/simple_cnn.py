@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class SimpleCNN(nn.Module):
-    def __init__(self, dropout_p=0.5): 
+    def __init__(self, dropout_p=0.3): 
         super(SimpleCNN, self).__init__()
         self.conv1 = nn.Conv2d(3, 32, kernel_size=3, padding=1)
         self.relu = nn.ReLU()

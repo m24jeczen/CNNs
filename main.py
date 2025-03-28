@@ -10,13 +10,13 @@ from utils.save_and_load_model import save_model, load_model
 from utils.hard_voting import hard_voting_ensemble
 
 torch.manual_seed(42)
-scheduler_type = "one_cycle"  # "one_cycle" or "step_decay"
+scheduler_type = None  # "one_cycle" or "step_decay"
 augmentations=["rotation", "translation"] # rotation "translation", "noise"
 lr = 0.001
-l2_reg = 0.0
+l2_reg = 0.0001
 epochs = 30
 dropout_p = 0.3
-batch_size = 128
+batch_size = 128 # 128, 512
 
 def run_test(batch_size = batch_size, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type, dropout_p=dropout_p):
     train_loader, test_loader = get_dataloaders(batch_size=batch_size, data_dir="./data", augmentations=augmentations)
@@ -25,23 +25,30 @@ def run_test(batch_size = batch_size, lr=lr, epochs=epochs, l2_reg=l2_reg, augme
     print('--- Deep CNN ---')
     train_model(model_deep_cnn, train_loader, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type, dropout_p=dropout_p)
     evaluate_model(model_deep_cnn, test_loader, num_epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type, dropout_p=dropout_p)
+    save_model(model_deep_cnn, "Deep_CNN_l2_0001", epoch=epochs)
 
     model_simple_cnn = SimpleCNN(dropout_p=dropout_p)
     print('--- Simple CNN ---')
     train_model(model_simple_cnn, train_loader, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type, dropout_p=dropout_p)
     evaluate_model(model_simple_cnn, test_loader, num_epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type, dropout_p=dropout_p)
+    save_model(model_simple_cnn, "Simple_CNN_l2_0001", epoch=epochs)
 
     model_cnn_with_fc = CNNWithFC(dropout_p=dropout_p)
     print('--- CNN with FC ---')
     train_model(model_cnn_with_fc, train_loader, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type, dropout_p=dropout_p)
     evaluate_model(model_cnn_with_fc, test_loader, num_epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type, dropout_p=dropout_p)
+    save_model(model_simple_cnn, "CNN_with_fc_l2_0001", epoch=epochs)
 
     model_mlp = MLPMixer()
     print('--- MLP Mixer ---')
     train_model(model_mlp, train_loader, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type, dropout_p=dropout_p)
     evaluate_model(model_mlp, test_loader, num_epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type, dropout_p=dropout_p)
+    save_model(model_simple_cnn, "MLP_Mixer_l2_0001", epoch=epochs)
 
     print('-------------- SUCCESS ----------------')
+
+
+run_test(batch_size = batch_size, lr=lr, epochs=epochs, l2_reg=l2_reg, augmentations=augmentations, scheduler_type=scheduler_type, dropout_p=dropout_p)
 
 # One cycle test
 # torch.manual_seed(42)
