@@ -6,9 +6,9 @@ from torchmetrics.classification import Accuracy, Precision, Recall
 import os
 import csv
 
-def save_training_results(model_name, num_epochs, augmentations_str, batch_size, l2_reg, min_lr, max_lr, scheduler_type, training_results, dropout_p):
+def save_training_results(model_name, num_epochs, augmentations_str, batch_size, l2_reg, lr, max_lr, scheduler_type, training_results, dropout_p):
 
-    filename = f"experiments/{model_name}_{num_epochs}_{augmentations_str}_{batch_size}_{l2_reg}_{min_lr}_{max_lr}_{scheduler_type}_{dropout_p}.csv"
+    filename = f"experiments/{model_name}_{num_epochs}_{augmentations_str}_{batch_size}_{l2_reg}_{lr}_{max_lr}_{scheduler_type}_{dropout_p}.csv"
     
     with open(filename, mode='w', newline='') as file:
         writer = csv.writer(file)
