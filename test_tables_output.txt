@@ -1,0 +1,207 @@
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+CNNWithFC & 0.5598 \\
+DeepCNN & 0.7206 \\
+MLPMixer & 0.6226 \\
+SimpleCNN & 0.5447 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_none_512_0.0_0.0001_0.001_none}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+CNNWithFC & 0.5622 \\
+DeepCNN & 0.7245 \\
+MLPMixer & 0.6246 \\
+SimpleCNN & 0.5524 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_rotation_512_0.0_0.0001_0.001_none}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+CNNWithFC & 0.5583 \\
+DeepCNN & 0.7222 \\
+MLPMixer & 0.6145 \\
+SimpleCNN & 0.5491 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_translation_512_0.0_0.0001_0.001_none}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+CNNWithFC & 0.5725 \\
+DeepCNN & 0.7247 \\
+MLPMixer & 0.6226 \\
+SimpleCNN & 0.5523 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_noise_512_0.0_0.0001_0.001_none}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+CNNWithFC & 0.5682 \\
+DeepCNN & 0.7136 \\
+MLPMixer & 0.6246 \\
+SimpleCNN & 0.5575 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_style_512_0.0_0.0001_0.001_none}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+CNNWithFC & 0.5639 \\
+DeepCNN & 0.7196 \\
+MLPMixer & 0.6145 \\
+SimpleCNN & 0.5555 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_erasing_512_0.0_0.0001_0.001_none}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+ProtoNet & 0.9312 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_noise_16_0.0_0.0001_0.001_none}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+ProtoNet & 0.9125 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_style_16_0.0_0.0001_0.001_none}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+ProtoNet & 0.9438 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_erasing_16_0.0_0.0001_0.001_none}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+ProtoNet & 0.9250 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_rotation_16_0.0_0.0001_0.001_none}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+ProtoNet & 0.8938 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_translation_16_0.0_0.0001_0.001_none}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+ProtoNet & 0.9250 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_none_16_0.0_0.0001_0.001_none}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+CNNWithFC & 0.4638 \\
+DeepCNN & 0.7159 \\
+MLPMixer & 0.6267 \\
+SimpleCNN & 0.5239 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_noise_rotation_translation_1024_0.0_0.0001_0.001_none}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+CNNWithFC & 0.5041 \\
+DeepCNN & 0.6962 \\
+MLPMixer & 0.6284 \\
+SimpleCNN & 0.4805 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_rotation_style_1024_0.0_0.0001_0.001_none}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+Model & Test Accuracy \\
+\hline
+CNNWithFC & 0.4863 \\
+DeepCNN & 0.6723 \\
+MLPMixer & 0.5997 \\
+SimpleCNN & 0.5239 \\
+\hline
+\end{tabular}
+\caption{Test accuracy for experiment: 30_noise_erasing_1024_0.0_0.0001_0.001_none}
+\end{table}
+

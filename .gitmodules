@@ -1,0 +1,6 @@
+[submodule "CNNs"]
+	path = CNNs
+	url = https://github.com/orobix/Prototypical-Networks-for-Few-shot-Learning-PyTorch.git
+[submodule "protoNet"]
+	path = protoNet
+	url = https://github.com/orobix/Prototypical-Networks-for-Few-shot-Learning-PyTorch.git
