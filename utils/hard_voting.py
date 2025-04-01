@@ -34,7 +34,6 @@ def hard_voting_ensemble(
             images = images.to(device)
             labels = labels.to(device)
 
-            # Collect predictions from all models
             batch_preds = []
             batch_losses = []
 
@@ -46,28 +45,23 @@ def hard_voting_ensemble(
                 preds = torch.argmax(outputs, dim=1)
                 batch_preds.append(preds.cpu())
 
-            # Stack predictions and vote (mode)
-            stacked_preds = torch.stack(batch_preds)  # Shape: (num_models, batch_size)
+            stacked_preds = torch.stack(batch_preds) 
             voted_preds = torch.mode(stacked_preds, dim=0).values.to(device)
 
             total_loss += sum(batch_losses) / len(models)
 
-            # Update metrics
             accuracy.update(voted_preds, labels)
             precision.update(voted_preds, labels)
             recall.update(voted_preds, labels)
 
-    # Final metrics
     avg_loss = total_loss / len(test_loader)
     test_acc = accuracy.compute().item()
     test_prec = precision.compute().item()
     test_recall = recall.compute().item()
 
-    # Output
     print(f"\n[Hard Voting Ensemble]")
     print(f"Loss: {avg_loss:.4f}, Accuracy: {test_acc:.4f}, Precision: {test_prec:.4f}, Recall: {test_recall:.4f}")
 
-    # Save to file
     if augmentations:
         augmentations_str = "_".join(augmentations)
     else:

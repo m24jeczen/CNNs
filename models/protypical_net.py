@@ -19,7 +19,6 @@ import torch.nn.functional as F
 from utils.dataset_loader import AddGaussianNoise
 
 
-# Define a simple CNN model for prototypical learning
 class ProtoNet(nn.Module):
     def __init__(self, embedding_dim=128):
         super(ProtoNet, self).__init__()
@@ -27,17 +26,16 @@ class ProtoNet(nn.Module):
         self.conv2 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1)
         self.pool = nn.MaxPool2d(2, 2)
         self.relu = nn.ReLU()
-        self.fc1 = nn.Linear(64 * 8 * 8, embedding_dim)  # Adjusted to correct size
+        self.fc1 = nn.Linear(64 * 8 * 8, embedding_dim)  
 
     def forward(self, x):
-        x = self.pool(self.relu(self.conv1(x)))  # Output: (batch, 32, 16, 16)
-        x = self.pool(self.relu(self.conv2(x)))  # Output: (batch, 64, 8, 8)
-        x = x.view(x.size(0), -1)  # Flatten to (batch, 64*8*8)
+        x = self.pool(self.relu(self.conv1(x)))  
+        x = self.pool(self.relu(self.conv2(x))) 
+        x = x.view(x.size(0), -1)  
         x = self.fc1(x)
-        return x  # Return embeddings
+        return x  
 
 
-# Load and preprocess the CINIC-10 dataset
 def load_cinic10_few_shot(data_dir, num_samples_per_class=5, batch_size=10, augmentations=None):
     transform_test = transforms.Compose([
         transforms.ToTensor(),
@@ -89,7 +87,6 @@ def load_cinic10_few_shot(data_dir, num_samples_per_class=5, batch_size=10, augm
     return dataloader_train, dataloader_test
 
 
-# Compute prototype loss (Euclidean distance)
 def prototypical_loss(embeddings, labels, num_classes):
     prototypes = torch.zeros(num_classes, embeddings.size(1)).to(embeddings.device)
     for i in range(num_classes):
@@ -101,7 +98,6 @@ def prototypical_loss(embeddings, labels, num_classes):
     return F.cross_entropy(-distances, labels)
 
 
-# Training function for prototypical learning
 def train_prototypical_network(model, dataloader, epochs=5, lr=0.001, num_classes=10):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
